@@ -23,28 +23,36 @@ def decrypt(data,iv,key):
     aes_decrypt = AES.new(key,AES.MODE_CBC,iv)
     return aes_decrypt.decrypt(data)
 
-def writefile(fileName,data):
-    outputFile = open(fileName,'wb')
-    outputFile.write(data)
 
 
 def hide(DataFile,coverFile,outputFileName,password):
-    file = open(DataFile,'rb')
-    data = file.read()
-
-    cover = open(coverFile,'rb')
-    coverData = cover.read()
-
+    try:
+        cover = open(coverFile,'rb')
+    except FileNotFoundError:
+        return "Cover file not found"
+    else:
+        coverData = cover.read()
+    try:
+        file = open(DataFile,'rb')
+    except FileNotFoundError:
+        return "Data file not Found"
+    else:
+        data = file.read()
+    try:
+        outputFile = open(outputFileName,'wb')
+    except FileNotFoundError:
+        return("Output file invalid")
     (enc_data , iv) = encrypt(data,password)
     password = bytes(password,'utf-8')
-    writefile(outputFileName,CombineData(coverData,password,iv,enc_data))
+    outputFile.write(CombineData(coverData,password,iv,enc_data))
+    return "Succesful"
 
 def menudriven():
     coverFile = input("Cover file : ")
-    dataFile = input("Abstract file : ")
+    dataFile = input("Data file : ")
     password = input("Password : ")
     outputFile = input("Output file : ")
-    hide(dataFile,coverFile,outputFile,password)
+    print(hide(dataFile,coverFile,outputFile,password))
 
 if __name__ == "__main__":
     menudriven()

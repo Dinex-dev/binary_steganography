@@ -14,7 +14,8 @@ def decrypt(filename,password):
     data = file.read()
     location = data.find(sha256(bytes(password,'utf-8')).digest())
     if location ==-1:
-        return "ERRRR"
+        print("Wrong Password or no hidden data")
+        exit(0)
     location+=32
     file.seek(location)
     alldata = file.read()
@@ -26,8 +27,12 @@ def decrypt(filename,password):
 
 
 def extract(filename,password,outputfile):
-    file = open(outputfile,'wb')
+    try :
+        file = open(outputfile,'wb')
+    except FileNotFoundError:
+        return "File not found"
     file.write(decrypt(filename,password))
+    return "Successful"
 
 if __name__ == "__main__":
     filename = input("File name : ")
