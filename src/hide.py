@@ -16,8 +16,8 @@ def encrypt(data , password):
     encrypted_data = aes_cipher.encrypt(pad(data,AES.block_size))
     return encrypted_data,aes_cipher.iv
 
-def CombineData(destData,password,iv,encryptedData):
-    return destData+sha256(password).digest()+iv+encryptedData
+def CombineData(coverData,password,iv,encryptedData):
+    return coverData+sha256(password).digest()+iv+encryptedData
 
 def decrypt(data,iv,key):
     aes_decrypt = AES.new(key,AES.MODE_CBC,iv)
@@ -28,15 +28,23 @@ def writefile(fileName,data):
     outputFile.write(data)
 
 
-def main(dataFileName,destinationFileName,outputFileName,password):
-    file = open(dataFileName,'rb')
+def hide(DataFile,coverFile,outputFileName,password):
+    file = open(DataFile,'rb')
     data = file.read()
 
-    destFile = open(destinationFileName,'rb')
-    destData = destFile.read()
+    cover = open(coverFile,'rb')
+    coverData = cover.read()
 
     (enc_data , iv) = encrypt(data,password)
     password = bytes(password,'utf-8')
-    writefile(outputFileName,CombineData(destData,password,iv,enc_data))
+    writefile(outputFileName,CombineData(coverData,password,iv,enc_data))
 
-main("datafile.txt","a.out","hidden","password")
+def menudriven():
+    coverFile = input("Cover file : ")
+    dataFile = input("Abstract file : ")
+    password = input("Password : ")
+    outputFile = input("Output file : ")
+    hide(dataFile,coverFile,outputFile,password)
+
+if __name__ == "__main__":
+    menudriven()

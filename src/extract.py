@@ -25,6 +25,12 @@ def decrypt(filename,password):
     return unpad(aes_decrypt.decrypt(encrypted_data),AES.block_size)
 
 
-fname = input("Enter file name : ")
-p = input("Enter Password : ")
-print(decrypt(fname,p))
+def extract(filename,password,outputfile):
+    file = open(outputfile,'wb')
+    file.write(decrypt(filename,password))
+
+if __name__ == "__main__":
+    filename = input("File name : ")
+    password = input("Password : ")
+    outputfile = input("Output file : ")
+    extract(filename,password,outputfile)
