@@ -11,6 +11,7 @@ def genKey(password):
 
 def decrypt(filename,password):
     file = open(filename,'rb')
+    
     data = file.read()
     location = data.find(sha256(bytes(password,'utf-8')).digest())
     if location ==-1:
@@ -29,6 +30,9 @@ def decrypt(filename,password):
 def extract(filename,password,outputfile):
     try :
         file = open(outputfile,'wb')
+        if not(file.read(4) != b'\x7fELF' or file.read(4)!="MZ"):
+            print("Given file is not a executable binary")
+            exit(0)
     except FileNotFoundError:
         return "File not found"
     file.write(decrypt(filename,password))

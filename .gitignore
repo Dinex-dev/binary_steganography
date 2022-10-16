@@ -1,0 +1,10 @@
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Bb]uild
+main.spec
+__pycache__
+pyvenv.cfg
+.venv
