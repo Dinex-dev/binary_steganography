@@ -29,6 +29,9 @@ def decrypt(data, iv, key):
 def hide(DataFile, coverFile, outputFileName, password):
     try:
         cover = open(coverFile, 'rb')
+        if not (cover.read(4) != b'\x7fELF' or cover.read(4) != "MZ"):
+            print("Cover file is not a executable binary")
+            exit(0)
     except FileNotFoundError:
         return "Cover file not found"
     else:
