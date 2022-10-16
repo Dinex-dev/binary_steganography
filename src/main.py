@@ -1,4 +1,3 @@
-from ast import arg
 from sys import argv
 from hide import hide
 from extract import extract
@@ -20,46 +19,65 @@ extract options :
 -h/--help\tPrint this help 
 """
 
-try:
-    mode = argv[1]
-except IndexError:
+
+def exiting():
     print(usage)
     exit(0)
 
-if mode == "hide":
-    try:
-        cover = argv[argv.index('-f')+1]
-    except ValueError:
-        print("No Cover File Specified")
-    try:
-        dataFile = argv[argv.index('-d')+1]
-    except ValueError:
-        print("No Data file File Specified")
-        exit(1)
-    try:
-        password = argv[argv.index('-p')+1]
-    except ValueError:
-        print("WARNING : No password given 'demo' will be used as password ")
-        password = "demo"
-    try:
-        outputfile = argv[argv.index('-o')+1]
-    except ValueError:
-        print("No output File Specified %s will be used as output file",'hidden'+cover)
-        outputfile = "hidden"+cover
-    print(hide(dataFile,cover,outputfile,password))
-elif mode == "extract":
-    try:
-        file = argv[argv.index('-f')+1]
-    except ValueError:
-        print("No file Speccified")
-        exit(1)
-    try:
-        password = argv[argv.index('-p')+1]
-    except ValueError:
-        print("WARNING : No password given 'demo' will be used as password ")
-    try:
-        outputfile = argv[argv.index('-o')+1]
-    except:
-        print("No output File Specified %s will be used as output file",'extracted_'+file)
-        outputfile = "extracted_"+file
-    print(extract(file,password,outputfile))
+
+try:
+    mode = argv[1]
+
+    if "hide" in argv and "extract" in argv:
+        print("Hide and Extract cannot be used together")
+        exit()
+    elif mode == "hide":
+        if "-f" not in argv or "-d" not in argv:
+            print("One or more required flags were not given.")
+            print("Use --help for usage info.")
+            exit()
+        try:
+            cover = argv[argv.index('-f') + 1]
+        except ValueError:
+            print("No Cover File Specified.")
+            exit()
+
+        try:
+            dataFile = argv[argv.index('-d') + 1]
+        except ValueError:
+            print("No Data file File Specified")
+            exit()
+
+        try:
+            password = argv[argv.index('-p') + 1]
+        except ValueError:
+            print("WARNING : No password given 'demo' will be used as password.")
+            password = "demo"
+
+        try:
+            outputFile = argv[argv.index('-o') + 1]
+        except ValueError:
+            print(f"No output File Specified 'hidden {cover}' will be used as output file")
+            outputFile = "hidden " + cover
+        print(hide(dataFile, cover, outputFile, password))
+
+    elif mode == "extract":
+        try:
+            file = argv[argv.index('-f') + 1]
+        except Exception:
+            print("No file Specified")
+            exit(1)
+        try:
+            password = argv[argv.index('-p') + 1]
+        except Exception:
+            print("WARNING : No password given 'demo' will be used as password ")
+            password = 'demo'
+
+        try:
+            outputFile = argv[argv.index('-o') + 1]
+        except Exception:
+            print(f"No output File Specified 'extracted_{file}' will be used as output file")
+            outputFile = "extracted_" + file
+        print(extract(file, password, outputFile))
+except IndexError:
+    exiting()
