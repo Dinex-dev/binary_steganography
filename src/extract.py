@@ -12,7 +12,6 @@ def genKey(password):
 
 def decrypt(filename, password):
     file = open(filename, 'rb')
-
     data = file.read()
     location = data.find(sha256(bytes(password, 'utf-8')).digest())
     if location == -1:
