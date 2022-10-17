@@ -27,7 +27,8 @@ def exiting():
 
 try:
     mode = argv[1]
-
+    if "-h" in argv or "--h" in argv:
+        exiting()
     if "hide" in argv and "extract" in argv:
         print("Hide and Extract cannot be used together")
         exit()
