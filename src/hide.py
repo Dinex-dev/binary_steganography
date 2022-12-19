@@ -35,6 +35,7 @@ def hide(DataFile, coverFile, outputFileName, password):
     except FileNotFoundError:
         return "Cover file not found"
     else:
+        cover.seek(0)
         coverData = cover.read()
     try:
         file = open(DataFile, 'rb')

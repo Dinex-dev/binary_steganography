@@ -29,14 +29,16 @@ def decrypt(filename, password):
 
 def extract(filename, password, outputfile):
     try:
-        file = open(outputfile, 'wb')
+        file = open(outputfile, 'wb+')
         if not (file.read(4) != b'\x7fELF' or file.read(4) != "MZ"):
             print("Given file is not a executable binary")
             exit(0)
     except FileNotFoundError:
         return "File not found"
-    file.write(decrypt(filename, password))
-    return "Successful"
+    else:
+        file.seek(0)
+        file.write(decrypt(filename, password))
+        return "Successful"
 
 
 if __name__ == "__main__":
