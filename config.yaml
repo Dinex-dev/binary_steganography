@@ -1,0 +1,13 @@
+cookie:
+  expiry_days: 30
+  key: thisiskey
+  name: authcookie
+credentials:
+  usernames:
+    admin:
+      email: admin@gmail.com
+      name: admin
+      password: $2b$12$m/J9jONYfy4Qn9EMKg/iI.bs3BmtrSRC/CWySdmCyHvK8/lVVJP3q
+preauthorized:
+  emails:
+  - admin@gmail.com
