@@ -1,0 +1,7 @@
+[theme]
+base="light"
+
+font = "monospace"
+layout="centered"
+page_title="Binary Steganography"
+page_icon="https://cdn-icons-png.flaticon.com/512/29/29184.png"
